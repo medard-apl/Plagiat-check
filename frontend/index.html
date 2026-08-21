@@ -1,0 +1,453 @@
+<!--# Formulaire upload + dropdown-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Adaptation mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PlagiatCheck — Détection de plagiat</title>
+
+    <!-- Feuille de style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         CONTENEUR PRINCIPAL
+         ========================================================= -->
+
+    <main class="app">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="header">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <h1>PlagiatCheck</h1>
+                    <p>Analyse intelligente de documents</p>
+                </div>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Système opérationnel
+            </div>
+
+        </header>
+
+
+        <!-- ================= PAGE D'ACCUEIL ================= -->
+
+        <section id="uploadSection" class="upload-section">
+
+            <div class="section-heading">
+                <span class="eyebrow">ANALYSE DE DOCUMENT</span>
+
+                <h2>
+                    Vérifiez votre mémoire
+                </h2>
+
+                <p>
+                    Importez votre document afin de détecter les
+                    correspondances exactes et les reformulations
+                    potentielles.
+                </p>
+            </div>
+
+
+            <!-- ================= ZONE UPLOAD ================= -->
+
+            <div
+                id="dropZone"
+                class="drop-zone"
+            >
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <h3>
+                    Glissez votre document ici
+                </h3>
+
+                <p>
+                    ou
+                </p>
+
+                <label
+                    for="fileInput"
+                    class="browse-button"
+                >
+                    Parcourir les fichiers
+                </label>
+
+                <input
+                    id="fileInput"
+                    type="file"
+                    accept=".pdf,.docx"
+                    hidden
+                >
+
+                <small>
+                    Formats acceptés : PDF, DOCX — 20 Mo maximum
+                </small>
+
+            </div>
+
+
+            <!-- ================= FICHIER SELECTIONNE ================= -->
+
+            <div
+                id="filePreview"
+                class="file-preview hidden"
+            >
+
+                <div class="file-info">
+
+                    <div class="file-icon">
+                        PDF
+                    </div>
+
+                    <div>
+                        <strong id="fileName">
+                            document.pdf
+                        </strong>
+
+                        <span id="fileSize">
+                            0 Mo
+                        </span>
+                    </div>
+
+                </div>
+
+                <button
+                    id="removeFile"
+                    class="remove-file"
+                    type="button"
+                    aria-label="Supprimer le fichier"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- ================= OPTIONS ================= -->
+
+            <div class="options">
+
+                <!-- Langue -->
+
+                <div class="form-group">
+
+                    <label for="language">
+                        Langue du document
+                    </label>
+
+                    <select id="language">
+
+                        <option value="auto">
+                            Détection automatique
+                        </option>
+
+                        <option value="fr">
+                            Français
+                        </option>
+
+                        <option value="en">
+                            Anglais
+                        </option>
+
+                        <option value="es">
+                            Espagnol
+                        </option>
+
+                        <option value="de">
+                            Allemand
+                        </option>
+
+                        <option value="other">
+                            Autre
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Profondeur -->
+            <!--
+                <div class="form-group">
+
+                    <label for="analysisDepth">
+                        Niveau d'analyse
+                    </label>
+
+                    <select id="analysisDepth">
+
+                        <option value="quick">
+                            ⚡ Analyse rapide
+                        </option>
+
+                        <option value="complete" selected>
+                            🔎 Analyse complète
+                        </option>
+
+                    </select>
+
+                </div>
+            -->
+
+            </div>
+
+
+            <!-- ================= BOUTON ANALYSER ================= -->
+
+            <button
+                id="analyzeButton"
+                class="analyze-button"
+                type="button"
+                disabled
+            >
+
+                <span class="button-icon">
+                    →
+                </span>
+
+                Analyser le document
+
+            </button>
+
+        </section>
+
+
+        <!-- =========================================================
+             SECTION ANALYSE EN COURS
+             ========================================================= -->
+
+        <section
+            id="loadingSection"
+            class="loading-section hidden"
+        >
+
+            <div class="loading-card">
+
+                <div class="loader"></div>
+
+                <span class="eyebrow">
+                    ANALYSE EN COURS
+                </span>
+
+                <h2 id="loadingTitle">
+                    Préparation du document...
+                </h2>
+
+                <p id="loadingMessage">
+                    Extraction du texte du mémoire.
+                </p>
+
+
+                <!-- Barre de progression -->
+
+                <div class="progress-container">
+
+                    <div
+                        id="progressBar"
+                        class="progress-bar"
+                    ></div>
+
+                </div>
+
+                <span
+                    id="progressText"
+                    class="progress-text"
+                >
+                    0 %
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================================
+             SECTION RESULTATS
+             ========================================================= -->
+
+        <section
+            id="resultsSection"
+            class="results-section hidden"
+        >
+
+            <!-- ================= ENTETE RESULTATS ================= -->
+
+            <div class="results-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        RAPPORT D'ANALYSE
+                    </span>
+
+                    <h2>
+                        Résultats de l'analyse
+                    </h2>
+
+                    <p id="resultDocumentName">
+                        document.pdf
+                    </p>
+
+                </div>
+
+                <button
+                    id="newAnalysisButton"
+                    class="secondary-button"
+                    type="button"
+                >
+                    + Nouvelle analyse
+                </button>
+
+            </div>
+
+
+            <!-- ================= SCORE ================= -->
+
+            <div class="score-card">
+
+                <div class="score-circle">
+
+                    <span id="scoreValue">
+                        0%
+                    </span>
+
+                    <small>
+                        similarité
+                    </small>
+
+                </div>
+
+                <div class="score-details">
+
+                    <span class="eyebrow">
+                        SCORE GLOBAL
+                    </span>
+
+                    <h3 id="scoreTitle">
+                        Analyse terminée
+                    </h3>
+
+                    <p id="scoreDescription">
+                        Aucun résultat disponible.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= STATISTIQUES ================= -->
+
+            <div class="statistics">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Correspondances exactes
+                    </span>
+
+                    <strong id="exactMatches">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Correspondances sémantiques
+                    </span>
+
+                    <strong id="semanticMatches">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Sources trouvées
+                    </span>
+
+                    <strong id="sourceCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= PASSAGES ================= -->
+
+            <div class="matches-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        DÉTAILS
+                    </span>
+
+                    <h3>
+                        Passages détectés
+                    </h3>
+
+                </div>
+
+                <span id="matchCount" class="match-count">
+                    0 résultat
+                </span>
+
+            </div>
+
+
+            <div
+                id="matchesList"
+                class="matches-list"
+            >
+
+                <!-- Les résultats seront générés par JavaScript -->
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <p>
+                PlagiatCheck · Outil d'aide à la vérification
+                de similarité documentaire
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>

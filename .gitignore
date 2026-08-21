@@ -1,0 +1,46 @@
+# ==== Python ====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+venv/
+env/
+.venv/
+*.env
+.env.*
+.python-version
+
+# ==== Node (utilisé ponctuellement pour générer des documents de test) ====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==== Modèles et caches téléchargés (multilingual-e5-base, etc.) ====
+.cache/
+*.safetensors
+*.bin
+*.onnx
+
+# ==== Fichiers de configuration locale / secrets ====
+.env
+.env.local
+config.local.py
+*.pem
+*.key
+
+# ==== IDE / éditeurs ====
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ==== Système ====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==== Logs et fichiers temporaires ====
+*.log
+*.tmp
+tmp/

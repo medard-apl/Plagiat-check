@@ -1,0 +1,1 @@
+# Seuils, timeouts, clés API (arXiv/CrossRef n'en ont pas besoin)

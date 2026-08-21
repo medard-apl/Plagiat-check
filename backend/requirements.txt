@@ -1,0 +1,31 @@
+# Étape 2 — Extraction
+PyMuPDF>=1.24.10       # lecture des PDF (module "fitz")
+python-docx==1.1.2     # lecture des fichiers Word (.docx)
+
+# Étape 3 — Segmentation
+langdetect==1.0.9      # détection de la langue du document
+spacy>=3.8.0           # découpage en phrases (tokenizer multilingue)
+
+# Étape 4 — Fingerprinting (Winnowing)
+# Aucune dépendance externe : uniquement hashlib, inclus dans Python.
+
+# Étape 5 — Embeddings sémantiques multilingues
+sentence-transformers==3.1.1   # charge et exécute multilingual-e5-base en local
+numpy>=2.1.0                  # calcul de la similarité cosinus
+
+# Note : le premier lancement de embeddings.py télécharge automatiquement
+# le modèle multilingual-e5-base (~1 Go) depuis Hugging Face et le met en
+# cache local (~/.cache/huggingface). Une connexion internet est donc
+# nécessaire au premier lancement, mais plus jamais ensuite.
+
+# Étape 6 — Sources académiques gratuites (Semantic Scholar, CrossRef, arXiv)
+requests==2.32.3
+ 
+# Étape 7 — Recherche web ponctuelle (DuckDuckGo + scraping)
+ddgs>=6.0.0                    # anciennement "duckduckgo-search" (renommé par l'auteur du package)
+trafilatura==1.12.2            # extraction du texte "utile" depuis une page HTML
+
+# Étapes 6-7 (scoring) et endpoint API
+fastapi==0.115.0
+uvicorn[standard]==0.31.0
+python-multipart==0.0.12   # requis par FastAPI pour lire les FormData (fichier + champs)
